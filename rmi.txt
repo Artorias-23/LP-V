@@ -1,0 +1,122 @@
+import java.rmi.*;
+
+public interface ServerIntf extends Remote{
+    public double Addition(double num1, double num2) throws RemoteException;
+}
+
+
+
+
+
+import java.rmi.*;
+import java.rmi.server.*;
+
+public class ServerImpl extends UnicastRemoteObject implements ServerIntf{
+    public ServerImpl() throws RemoteException{
+
+    }
+    
+    // this function changes according to the problem statement. Refer the Assignment_1.pdf
+    // to know what exactly to put inside the function. Just change the retun statement.
+    public double Addition(double num1, double num2) throws RemoteException{
+        return num1 + num2;
+    }
+}
+
+
+
+
+import java.rmi.*;
+
+public class Server{
+    public static void main(String[] args){
+        try{
+            ServerImpl simp = new ServerImpl(); //Stub
+            Naming.rebind("Server", simp);
+        }
+        catch(Exception e){
+            System.out.println("Exception at Server: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+import java.rmi.*;
+import java.util.Scanner;
+
+public class Client{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+
+        try{
+            String serverURL = "rmi://localhost/Server";
+            ServerIntf serInt = (ServerIntf) Naming.lookup(serverURL);
+
+            // change the things to input and output according to the problem statement
+
+            System.out.println("Enter num1: ");
+            double num1 = sc.nextDouble();
+
+            System.out.println("Enter num2: ");
+            double num2 = sc.nextDouble();
+
+            System.out.println("Answer from Server: " + serInt.Addition(num1, num2));
+        }
+        catch(Exception e){
+            System.out.println("Exception at Server: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+
+
+// POWER OF 2
+public double powerOf2(double num) throws RemoteException{
+    return Math.pow(num, 2);
+}
+
+// STRING COMPARISON (RETURNS LONGER STRING)
+public String longerString(String s1, String s2) throws RemoteException{
+    return (s1.length() >= s2.length()) ? s1 : s2;
+}
+
+// CELSIUS TO FAHRENHEIT
+public double celsiusToFahrenheit(double c) throws RemoteException{
+    return (c * 9 / 5) + 32;
+}
+
+// MILES TO KILOMETERS
+public double milesToKm(double miles) throws RemoteException{
+    return miles * 1.60934;
+}
+
+// FACTORIAL
+public long factorial(int n) throws RemoteException{
+    long fact = 1;
+    for(int i = 1; i <= n; i++){
+        fact *= i;
+    }
+    return fact;
+}
+
+// COUNT VOWELS
+public int countVowels(String str) throws RemoteException{
+    int count = 0;
+    str = str.toLowerCase();
+
+    for(int i = 0; i < str.length(); i++){
+        char ch = str.charAt(i);
+
+        if(ch == 'a' || ch == 'e' || ch == 'i' || 
+           ch == 'o' || ch == 'u'){
+            count++;
+        }
+    }
+
+    return count;
+}
