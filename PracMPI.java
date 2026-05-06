@@ -110,3 +110,13 @@ public class PracMPI {
         MPI.Finalize();
     }
 }
+
+
+
+
+
+
+export MPJ_HOME=$PWD/mpj
+export PATH=$MPJ_HOME/bin:$PATH
+compile: javac -cp .:$MPJ_HOME/lib/mpj.jar PracMPI.java
+run: mpjrun.sh -np 4 PracMPI
